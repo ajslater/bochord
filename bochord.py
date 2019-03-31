@@ -11,6 +11,16 @@ ICLOUD_BOOK_DIR = "Library/Mobile Documents/iCloud~com~apple~iBooks/Documents"
 ZIP_MTIME_MIN = 315644400.0  # 1 day after 1980 for timezones
 
 
+def get_src_file_mtime(src_file_path):
+    """Get source file mtime, but alter it if pkzip will reject it."""
+    src_file_mtime = os.path.getmtime(src_file_path)
+    if src_file_mtime < ZIP_MTIME_MIN:
+        print('Updating mtime for zip compatibilty:', src_file_path)
+        os.utime(src_file_path, None)
+        src_file_mtime = os.path.getmtime(src_file_path)
+    return src_file_mtime
+
+
 def check_for_updated_files(epub_path, src_dir, args):
     """Check for updated files"""
     if os.path.exists(epub_path):
@@ -26,11 +36,7 @@ def check_for_updated_files(epub_path, src_dir, args):
         for src_filename in src_files:
             src_file_path = os.path.join(root, src_filename)
             src_paths.add(src_file_path)
-            src_file_mtime = os.path.getmtime(src_file_path)
-            if src_file_mtime < ZIP_MTIME_MIN:
-                print('Updating mtime for zip compatibilty:', src_file_path)
-                os.utime(src_file_path, None)
-                src_file_mtime = os.path.getmtime(src_file_path)
+            src_file_mtime = get_src_file_mtime(src_file_path)
             update = update or src_file_mtime > archive_mtime
 
     if not update and not args.force:
