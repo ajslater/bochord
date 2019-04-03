@@ -92,7 +92,10 @@ def prune(filenames, args):
     os.chdir(args.dest)
     dest_set = set(os.listdir('.'))
     src_set = set(filenames)
-    extra_set = src_set - dest_set
+    extra_set = dest_set - src_set
+    if args.verbose:
+        print("Removing:")
+        print(extra_set)
     for filename in extra_set:
         os.remove(filename)
         print('Removed:', filename)
