@@ -2,13 +2,12 @@
 """Backup books from macOS Books to usable ePubs"""
 
 import argparse
-
 import os
 import subprocess
 import zipfile
 from pathlib import Path
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 ICLOUD_BOOK_DIR = "Library/Mobile Documents/iCloud~com~apple~iBooks/Documents"
 ZIP_MTIME_MIN = 315644400.0  # 1 day after 1980 for timezones
 
@@ -89,10 +88,10 @@ def backup_other(filename, args):
     subprocess.call(["rsync", "-aP", verbose, filename, args.dest])
 
 
-def prune(filenames, args):
+def prune(args):
     """Prune docs from destination that aren't in the source."""
     dest_set = set(args.dest.iterdir())
-    src_set = set(filenames)
+    src_set = set(args.source.iterdir())
     extra_set = dest_set - src_set
     if args.verbose:
         print("Removing:")
@@ -140,7 +139,8 @@ def get_arguments():
         help="source directory (default: %(default)s)",
     )
     parser.add_argument(
-        "dest", metavar="backup_path", type=Path, help="backup destination path"
+        "dest", metavar="backup_path", type=Path,
+        help="backup destination path"
     )
 
     return parser.parse_args()
@@ -155,7 +155,7 @@ def main(args):
             backup_other(filename, args)
 
     if args.prune:
-        prune(filenames, args)
+        prune(args)
 
 
 if __name__ == "__main__":

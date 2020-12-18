@@ -7,7 +7,7 @@ This program zips them up to a specified backup dir and copies PDFs with
 rsync to that dir as well.
 
 ## Depends
-Depends on rsync being installed.
+Depends on rsync being installed and on the path.
 
 ## Why
 I like to manage my books with Apple Books instead of Calibre for 
