@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backup books from macOS Books to usable ePubs"""
+"""Backup books from macOS Books to usable ePubs."""
 
 import argparse
 import os
@@ -7,7 +7,7 @@ import subprocess
 import zipfile
 from pathlib import Path
 
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 ICLOUD_BOOK_DIR = "Library/Mobile Documents/iCloud~com~apple~iBooks/Documents"
 ZIP_MTIME_MIN = 315644400.0  # 1 day after 1980 for timezones
 
@@ -16,18 +16,15 @@ def get_src_file_mtime(src_file_path):
     """Get source file mtime, but alter it if pkzip will reject it."""
     src_file_mtime = src_file_path.stat().st_mtime
     if src_file_mtime < ZIP_MTIME_MIN:
-        print("Updating mtime for zip compatibilty:", src_file_path)
+        print("Updating mtime for zip compatibility:", src_file_path)
         src_file_path.touch()
         src_file_mtime = src_file_path.stat().st_mtime
     return src_file_mtime
 
 
 def check_for_updated_files(epub_path, src_dir, args):
-    """Check for updated files"""
-    if Path(epub_path).exists():
-        archive_mtime = epub_path.stat().st_mtime
-    else:
-        archive_mtime = 0.0
+    """Check for updated files."""
+    archive_mtime = epub_path.stat().st_mtime if Path(epub_path).exists() else 0.0
 
     src_paths = set()
     update = False
@@ -53,10 +50,7 @@ def archive_epub(epub_path, src_paths, args):
 
     with zipfile.ZipFile(new_epub_path, "w") as epub:
         for src_file_path in src_paths:
-            if src_file_path.name == "mimetype":
-                ctype = zipfile.ZIP_STORED
-            else:
-                ctype = None
+            ctype = zipfile.ZIP_STORED if src_file_path.name == "mimetype" else None
             if args.verbose:
                 print("  ", src_file_path)
             epub.write(src_file_path, compress_type=ctype, compresslevel=9)
@@ -81,11 +75,8 @@ def backup_epub_dir(filename, args):
 
 def backup_other(filename, args):
     """Backup documents that aren't epub directories."""
-    if args.verbose:
-        verbose = "-v"
-    else:
-        verbose = "-q"
-    subprocess.call(["rsync", "-aP", verbose, filename, args.dest])
+    verbose = "-v" if args.verbose else "-q"
+    subprocess.call(["rsync", "-aP", verbose, filename, args.dest])  # noqa: S603,S607
 
 
 def prune(args):
@@ -97,11 +88,12 @@ def prune(args):
         print("Removing:")
         print(extra_set)
     for filename in extra_set:
-        filename.unlink
+        filename.unlink()
         print("Removed:", filename)
 
 
 def get_arguments():
+    """Get arguments with argparser."""
     usage = "%(prog)s [options] <backup_path>"
     desc = "Backup books from macOS Books to usable ePubs"
     source = Path.home() / ICLOUD_BOOK_DIR
@@ -128,7 +120,7 @@ def get_arguments():
         action="store_true",
         dest="prune",
         default=0,
-        help="prune documents from destination if " "missing from source.",
+        help="prune documents from destination if missing from source.",
     )
     parser.add_argument(
         "-s",
@@ -139,8 +131,7 @@ def get_arguments():
         help="source directory (default: %(default)s)",
     )
     parser.add_argument(
-        "dest", metavar="backup_path", type=Path,
-        help="backup destination path"
+        "dest", metavar="backup_path", type=Path, help="backup destination path"
     )
 
     return parser.parse_args()
