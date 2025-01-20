@@ -1,4 +1,5 @@
 """Backup iCloud iBooks epub dir as an epub archive."""
+# iCloud stores epubs exploded on disk.
 
 import os
 from pathlib import Path
