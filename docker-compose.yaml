@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  bochord-build-builder:
+    build:
+      context: .
+      dockerfile: build.Dockerfile
+    image: ajslater/bochord-builder
+    container_name: bochord-build-builder
+  bochord-lint:
+    image: ajslater/bochord-builder
+    container_name: bochord-lint
+    command: make lint
+  bochord-test:
+    image: ajslater/bochord-builder
+    container_name: bochord-test
+    volumes:
+      - ./test-results:/app/test-results
+    command: make test
+  bochord-build:
+    image: ajslater/bochord-builder
+    container_name: bochord-build
+    volumes:
+      - ./dist:/app/dist
+    command: make build
+  bochord:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ajslater/bochord
+    container_name: bochord
