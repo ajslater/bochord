@@ -1,5 +1,10 @@
 # 📰 Bochord News
 
+## v1.2.0
+
+- Deflate epubs
+- Use file copy rather than rsync. No longer depends on rsync.
+
 ## v1.1.1
 
 - Fix script entrypoint

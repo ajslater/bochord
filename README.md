@@ -4,12 +4,8 @@ Backup books from macOS Books to usable ePubs
 
 This works because macOS Books with iCloud turned on stores books as exploded
 epub directories with their proper titles as the directory name. This program
-zips them up to a specified backup dir and copies PDFs with rsync to that dir as
-well.
-
-## Depends
-
-Depends on rsync being installed and on the path.
+zips them up into epub archives to a specified backup dir and copies other,
+non-epub dir files, like PDFs, to that directory as well.
 
 ## Why
 
