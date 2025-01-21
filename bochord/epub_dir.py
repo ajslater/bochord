@@ -26,7 +26,9 @@ def get_dest_file_mtime(dest_path: Path) -> float:
     return dest_path.stat().st_mtime if dest_path.exists() else 0.0
 
 
-def _get_updated_files(archive_mtime: float, epub_dir_src_path: Path, args: Namespace) -> frozenset[Path]:
+def _get_updated_files(
+    archive_mtime: float, epub_dir_src_path: Path, args: Namespace
+) -> frozenset[Path]:
     """Check for updated files."""
     src_paths = set()
     update = False
@@ -45,7 +47,9 @@ def _get_updated_files(archive_mtime: float, epub_dir_src_path: Path, args: Name
     return frozenset(src_paths)
 
 
-def _archive_epub(epub_dest_path: Path, src_paths: frozenset[Path], args: Namespace) -> None:
+def _archive_epub(
+    epub_dest_path: Path, src_paths: frozenset[Path], args: Namespace
+) -> None:
     """Make a new archive in a tempfile."""
     cprint(f"\nArchiving: {epub_dest_path.name}", "cyan")
     new_epub_path = epub_dest_path.with_suffix(".epub_new")

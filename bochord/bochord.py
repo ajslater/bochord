@@ -37,7 +37,11 @@ def prune(args: Namespace) -> None:
 def run(args: Namespace) -> None:
     """Backup everything."""
     for filename in sorted(args.source.iterdir()):
-        backup_func = backup_epub_dir if filename.suffix == ".epub" and filename.is_dir() else backup_file
+        backup_func = (
+            backup_epub_dir
+            if filename.suffix == ".epub" and filename.is_dir()
+            else backup_file
+        )
         if not backup_func(filename, args):
             if args.verbose:
                 cprint(f"\nNot updated: {filename}", "green")
