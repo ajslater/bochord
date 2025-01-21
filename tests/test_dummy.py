@@ -1,5 +1,6 @@
 """Dummy Test."""
 
+
 class TestDummy:
     """Dummy Test."""
 
