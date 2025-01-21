@@ -1,25 +1,32 @@
 """Backup books from macOS Books to usable ePubs."""
 
-import subprocess
+import shutil
+from argparse import Namespace
+from pathlib import Path
 
 from termcolor import cprint
 
-from bochord.epub_dir import backup_epub_dir
-
-__version__ = "1.1.0"
+from bochord.epub_dir import backup_epub_dir, get_dest_file_mtime
 
 
-def backup_file(filename, args):
+def backup_file(filename: Path, args: Namespace) -> bool:
     """Backup documents that aren't epub directories."""
-    verbose = "-v" if args.verbose else "-q"
-    subprocess.call(["rsync", "-aP", verbose, filename, args.dest])  # noqa: S603,S607
+    src_path = args.source / filename.name
+    src_file_mtime = src_path.stat().st_mtime
+    dest_path = args.dest / filename.name
+    dest_file_mtime = get_dest_file_mtime(dest_path)
+    if args.force or src_file_mtime > dest_file_mtime:
+        cprint(f"\nArchiving: {filename}", "cyan")
+        shutil.copy2(src_path, dest_path)
+        return True
+    return False
 
 
-def prune(args):
+def prune(args: Namespace) -> None:
     """Prune docs from destination that aren't in the source."""
     dest_set = set(args.dest.iterdir())
     src_set = set(args.source.iterdir())
-    extra_set = dest_set - src_set
+    extra_set = sorted(dest_set - src_set)
     if args.verbose:
         cprint(f"Removing: {extra_set}", "yellow")
     for filename in extra_set:
@@ -27,13 +34,22 @@ def prune(args):
         cprint("\tRemoved: {filename}", "yellow")
 
 
-def run(args):
+def run(args: Namespace) -> None:
     """Backup everything."""
-    for filename in args.source.iterdir():
-        if filename.suffix == ".epub" and filename.is_dir():
-            backup_epub_dir(filename, args)
-        else:
-            backup_file(filename, args)
+    for filename in sorted(args.source.iterdir()):
+        backup_func = (
+            backup_epub_dir
+            if filename.suffix == ".epub" and filename.is_dir()
+            else backup_file
+        )
+        if not backup_func(filename, args):
+            if args.verbose:
+                cprint(f"\nNot updated: {filename}", "green")
+            else:
+                cprint(".", "green", end="")
+
+    if not args.verbose:
+        cprint("")
 
     if args.prune:
         prune(args)

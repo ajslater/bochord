@@ -2,11 +2,18 @@
 """Bochord cli arg parsing."""
 
 import argparse
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
-from bochord.bochord import __version__, run
+from bochord.bochord import run
 
 ICLOUD_BOOK_DIR = "Library/Mobile Documents/iCloud~com~apple~iBooks/Documents"
+PROGRAM_NAME = "bochord"
+
+try:
+    __version__ = version(PROGRAM_NAME)
+except PackageNotFoundError:
+    __version__ = "test"
 
 
 def get_arguments():
