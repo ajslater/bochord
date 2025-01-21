@@ -43,7 +43,7 @@ def _check_for_updated_files(epub_path, src_dir, args):
 
 def _archive_epub(epub_path, src_paths, args):
     """Make a new archive in a tempfile."""
-    cprint(f"Archiving: {epub_path.name}", "cyan")
+    cprint(f"\nArchiving: {epub_path.name}", "cyan")
     new_epub_path = epub_path.with_suffix(".epub_new")
 
     with ZipFile(new_epub_path, "w") as epub:
