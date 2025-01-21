@@ -3,8 +3,8 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "Bochord"
-version = "1.1.0"
+name = "bochord"
+version = "1.1.1"
 description = ""
 license = "GPL-3.0-only"
 authors = ["AJ Slater <aj@slater.net>"]
@@ -20,12 +20,13 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3 :: Only",
 ]
-packages = [{ include = "" }, { include = "tests", format = "sdist" }]
+packages = [{ include = "bochord" }, { include = "tests", format = "sdist" }]
 exclude = ["*/**/*~"]
 include = []
 
 [tool.poetry.dependencies]
 python = "^3.10"
+termcolor = "^2.5.0"
 
 [tool.poetry.group.dev.dependencies]
 neovim = "^0.3.1"
@@ -46,8 +47,8 @@ types-python-dateutil = "^2.8.19"
 vulture = "^2.3"
 
 [tool.poetry.scripts]
+bochord = "bochord.cli:main"
 
-# prog = "prog.run:main"
 [tool.poetry.urls]
 "News" = "https://github.com/ajslater/"
 "Docker Image" = "https://hub.docker.com/r/ajslater/"
@@ -135,7 +136,6 @@ extend-ignore = [
   "ISC001",  # formatted
   "PERF203", # try block in loop
   "S101",    # assert
-  "T201",    # Allow prints
   "W191",    # formatted
 ]
 extend-select = [
