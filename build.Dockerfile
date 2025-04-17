@@ -1,23 +1,24 @@
-FROM cimg/python:3.13-node
+# hadolint ignore=DL3007
+FROM nikolaik/python-nodejs:latest
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 USER root
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-    git \
-    rsync \
-    shellcheck \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y --no-install-recommends \
+  git \
+  rsync \
+  shellcheck \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 RUN chown circleci:circleci /app
 COPY --chown=circleci:circleci bin bin
 
 USER circleci
-COPY --chown=circleci:circleci pyproject.toml poetry.lock ./
+COPY --chown=circleci:circleci pyproject.toml uv.lock ./
 # hadolint ignore=DL3013
 RUN pip3 install --no-cache-dir poetry
 # hadolint ignore=DL3016,DL3059
