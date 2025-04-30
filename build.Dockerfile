@@ -2,18 +2,17 @@
 FROM nikolaik/python-nodejs:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
+
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    git \
-    rsync \
     shellcheck \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+
 COPY pyproject.toml uv.lock package.json package-lock.json ./
-# hadolint ignore=DL3016,DL3059
 RUN npm install
 
 COPY . .
