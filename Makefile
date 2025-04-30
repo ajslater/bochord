@@ -1,28 +1,38 @@
+SHELL := /usr/bin/env bash
+
+## Show version. Use V variable to set version
+## @category Update
+V :=
+.PHONY: version
+## Show or set project version
+## @category Update
+version:
+	bin/version.sh $(V)
+
 .PHONY: install-deps
-## Update pip and install poetry
+## Update pip and install node packages
+## @category Install
+install-deps:
 	pip install --upgrade pip
-	pip install --upgrade poetry
+	npm install
 
 .PHONY: install
 ## Install for production
 ## @category Install
 install-prod: install-deps
-	poetry install --no-root --only-root
-	npm install
+	uv sync --no-install-project --no-dev
 
 .PHONY: install-dev
 ## Install dev requirements
 ## @category Install
 install-dev: install-deps
-	poetry install --no-root --only-root --with dev
-	npm install
+	uv sync --no-install-project
 
 .PHONY: install-all
 ## Install with all extras
 ## @category Install
 install-all: install-deps
-	poetry install --no-root --all-extras
-	npm install
+	uv sync --no-install-project --all-extras
 
 .PHONY: clean
 ## Clean pycaches
@@ -34,13 +44,13 @@ clean:
 ## Build package
 ## @category Build
 build:
-	poetry build
+	uv build
 
 .PHONY: publish
 ## Publish package to pypi
 ## @category Deploy
 publish:
-	poetry publish
+	uv publish
 
 .PHONY: update
 ## Update dependencies
@@ -48,37 +58,28 @@ publish:
 update:
 	./bin/update-deps.sh
 
-.PHONY: update-builder
-## Update builder requirements
-## @category Update
-update-builder:
-	./bin/update-builder-requirement.sh
-
-## Show version. Use V variable to set version
-## @category Update
-V :=
-.PHONY: version
-## Show or set project version
-## @category Update
-version:
-	bin/version.sh $(V)
-
 .PHONY: kill-eslint_d
 ## Kill eslint daemon
 ## @category Lint
 kill-eslint_d:
 	bin/kill-eslint_d.sh
 
-.PHONY: fix
-## Fix front and back end lint errors
-## @category Lint
-fix: fix-backend
-
 .PHONY: fix-backend
 ## Fix only backend lint errors
-## @category Lint
+## @category Fix
 fix-backend:
 	./bin/fix-lint-backend.sh
+
+.PHONY: fix
+## Fix front and back end lint errors
+## @category Fix
+fix: fix-backend
+
+.PHONY: typecheck
+## Static typecheck
+## @category Lint
+typecheck:
+	uv run pyright .
 
 .PHONY: lint
 ## Lint front and back end
@@ -91,6 +92,18 @@ lint: lint-backend
 lint-backend:
 	./bin/lint-backend.sh
 
+.PHONY: uml
+## Create a UML class diagram
+## #category Lint
+uml:
+	bin/uml.sh
+
+.PHONY: cycle
+## Detect Circular imports
+## @category Lint
+cycle:
+	uvx pycycle --ignore node_modules,.venv --verbose --here
+
 ## Test
 ## @category Test
 T :=
@@ -99,6 +112,12 @@ T :=
 ## @category Test
 test:
 	./bin/test.sh $(T)
+
+.PHONY: dev-server
+## Run the dev webserver
+## @category Test
+dev-server:
+	./bin/dev-server.sh
 
 .PHONY: news
 ## Show recent NEWS

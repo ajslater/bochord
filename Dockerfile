@@ -1,4 +1,5 @@
-FROM ubuntu:oracular
+# hadolint ignore=DL3007
+FROM nikolaik/python-nodejs:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 
