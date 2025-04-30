@@ -1,5 +1,9 @@
 # 📰 Bochord News
 
+## v1.2.1
+
+- Update termcolor
+
 ## v1.2.0
 
 - Deflate epubs

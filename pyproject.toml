@@ -2,9 +2,9 @@
 authors = [{ name = "AJ Slater", email = "aj@slater.net" }]
 license = { text = "GPL-3.0-only" }
 requires-python = "<4.0,>=3.10"
-dependencies = ["termcolor<3.0.0,>=2.5.0"]
+dependencies = ["termcolor>=3.0.0"]
 name = "bochord"
-version = "1.2.0"
+version = "1.2.1"
 description = ""
 readme = "README.md"
 keywords = []
