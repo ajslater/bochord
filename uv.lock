@@ -20,6 +20,7 @@ version = "1.2.1"
 source = { editable = "." }
 dependencies = [
     { name = "termcolor" },
+    { name = "typing-extensions" },
 ]
 
 [package.dev-dependencies]
@@ -40,7 +41,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "termcolor", specifier = ">=3.0.0" }]
+requires-dist = [
+    { name = "termcolor", specifier = ">=3.0.0" },
+    { name = "typing-extensions", specifier = ">=4.13.2" },
+]
 
 [package.metadata.requires-dev]
 dev = [
