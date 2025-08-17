@@ -2,6 +2,7 @@ import eslintJs from "@eslint/js";
 import eslintJson from "@eslint/json";
 import eslintPluginComments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
+import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier";
 import eslintPluginArrayFunc from "eslint-plugin-array-func";
 import eslintPluginCompat from "eslint-plugin-compat";
@@ -37,7 +38,7 @@ export const CONFIGS = {
     ...eslintPluginPromise.configs[FLAT_RECOMMENDED],
     ...eslintPluginRegexp.configs[FLAT_RECOMMENDED],
     ...eslintPluginSonarjs.configs.recommended,
-    // ...eslintPluginUnicorn.configs[FLAT_ALL],
+    ...eslintPluginUnicorn.configs.recommended,
     plugins: {
       depend: eslintPluginDepend,
       "no-secrets": eslintPluginNoSecrets,
@@ -51,13 +52,6 @@ export const CONFIGS = {
     },
     rules: {
       "array-func/prefer-array-from": "off", // for modern browsers the spread operator, as preferred by unicorn, works fine.
-      "depend/ban-dependencies": [
-        "error",
-        {
-          // import-x doesn't work with eslint 9 yet
-          allowed: ["eslint-plugin-import"],
-        },
-      ],
       "max-params": ["warn", 4],
       "no-console": "warn",
       "no-debugger": "warn",
@@ -66,7 +60,6 @@ export const CONFIGS = {
       "simple-import-sort/exports": "warn",
       "simple-import-sort/imports": "warn",
       "space-before-function-paren": "off",
-      ...eslintPluginUnicorn.configs[FLAT_RECOMMENDED].rules,
       "unicorn/filename-case": [
         "error",
         { case: "kebabCase", ignore: [".*.md"] },
@@ -79,20 +72,21 @@ export const CONFIGS = {
 };
 Object.freeze(CONFIGS);
 
-export default [
+export default defineConfig([
   {
+    name: "globalIgnores",
     ignores: [
       "!.circleci",
-      "**/__pycache__/",
       "**/*min.css",
       "**/*min.js",
+      "**/__pycache__/",
+      "**/node_modules/",
+      "**/package-lock.json",
       "*~",
       ".git/",
       ".*cache/",
       ".venv/",
       "dist/",
-      "node_modules/",
-      "package-lock.json",
       "uv.lock",
       "test-results/",
       "typings/",
@@ -100,7 +94,7 @@ export default [
   },
   eslintPluginPrettierRecommended,
   eslintPluginSecurity.configs.recommended,
-  eslintPluginStylistic.configs["all-flat"],
+  eslintPluginStylistic.configs.all,
   {
     languageOptions: {
       globals: {
@@ -177,4 +171,4 @@ export default [
     },
   },
   eslintConfigPrettier, // Best if last
-];
+]);
