@@ -1,7 +1,5 @@
 [project]
 authors = [{ name = "AJ Slater", email = "aj@slater.net" }]
-name = "bochord"
-readme = "README.md"
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -13,32 +11,33 @@ dependencies = ["termcolor~=3.0", "typing-extensions~=4.13"]
 description = "Backup iCloud Books to usable ePubs"
 keywords = ["epub", "iCloud", "book", "backup"]
 license = "GPL-3.0-only"
+name = "bochord"
+readme = "README.md"
 requires-python = "<4.0,>=3.10"
 version = "1.2.3"
 
 [project.urls]
-News = "https://github.com/ajslater/"
-"Report Issues" = "https://github.com/ajslater/issues/"
-homepage = "https://github.com/ajslater/bochord"
-repository = "https://github.com/ajslater/bochord"
-documentation = "https://github.com/ajslater/bochord"
+News = "https://github.com/ajslater/bochord/blob/main/NEWS.md"
+Documentation = "https://github.com/ajslater/bochord"
+Issues = "https://github.com/ajslater/issues/"
+Source = "https://github.com/ajslater/bochord"
 
 [project.scripts]
 bochord = "bochord.cli:main"
 
 [dependency-groups]
 dev = [
-  "basedpyright~=1.29.1",
-  "codespell~=2.4.0",
+  "basedpyright~=1.30",
+  "codespell~=2.4",
   "coverage[toml]~=7.0",
-  "neovim~=0.3.1",
-  "pyclean~=3.1.0",
-  "pytest-cov~=6.0.0",
+  "neovim~=0.1",
+  "pyclean~=3.1",
+  "pytest-cov~=6.0",
   "pytest-gitignore~=1.3",
-  "radon[toml]~=6.0.1",
+  "radon[toml]~=6.0",
   "ruff~=0.12",
   "toml-cli~=0.8.0",
-  "ty>=0.0.1a18",
+  "ty>=0.0.1a19",
   "types-python-dateutil~=2.9",
   "vulture~=2.3",
 ]
@@ -74,7 +73,7 @@ exclude = [
   "dist",
   "test-results",
   "typings",
-  "vulture_whitelist.py",
+  "vulture_ignorelist.py",
 ]
 pythonVersion = "3.10"
 failOnWarnings = false
@@ -84,6 +83,7 @@ reportImportCycles = true
 reportIncompatibleUnannotatedOverride = true
 reportMissingParameterType = false
 reportMissingTypeArgument = false
+reportMissingTypeStubs = false
 reportPrivateUsage = false # ruff does this
 reportUnannotatedClassAttribute = false
 reportUnknownArgumentType = false
@@ -92,13 +92,12 @@ reportUnknownParameterType = false
 reportUnknownVariableType = false
 reportUnusedCallResult = false
 reportUnusedParameter = false # ruff does this 
-reportMissingTypeStubs = false
 
 [tool.codespell]
-skip = ".*,*~,./dist,./node_modules,./package.json,./package-lock.json,./uv.lock,./test-results"
 builtin = 'clear,rare,code'
 check-hidden = true
 ignore-words-list = 'thead,ro,jupyter,searched,ws'
+skip = ".*,*~,./dist,./node_modules,./package.json,./package-lock.json,./uv.lock,./test-results"
 
 [tool.coverage.html]
 directory = "test-results/coverage"
@@ -114,6 +113,7 @@ omit = [
   "node_modules/*",
   "test-results/*",
   "typings/*",
+  "vulture_ignorelist.py",
 ]
 
 [tool.pytest.ini_options]
@@ -127,15 +127,22 @@ addopts = """
     --cov-report=html
     --cov-report=term
 """
-testpaths = "tests"
 junit_family = "xunit2"
+testpaths = "tests"
 
 [tool.radon]
 exclude = "*~,.*,.*/*,__pycache__/*,dist/*,node_modules/*,test-results/*,typings/*"
-target-version = "py310"
 
 [tool.ruff]
-extend-exclude = ["**/.*", "**/__pycache__", "dist", "test-results", "typings"]
+extend-exclude = [
+  "**/.*",
+  "**/__pycache__",
+  "dist",
+  "test-results",
+  "typings",
+  "vulture_ignorelist.py",
+]
+target-version = "py310"
 
 [tool.ruff.lint]
 extend-ignore = [
@@ -156,69 +163,74 @@ extend-ignore = [
   "W191",    # formatted
 ]
 extend-select = [
-  "A",
   # "AIR",
-  # "ANN",
-  "ARG",
-  "ASYNC",
-  "B",
-  "B9",
-  "BLE",
-  "C",
-  "C4",
-  "C90",
-  "COM",
-  # "CPY",
-  "D",
-  "DJ",
-  # "DOC",
-  "DTZ",
-  "E",
-  "EM",
   "ERA",
-  "EXE",
-  "F",
-  "FA",
   # "FAST",
+  # ########
+  # flake8 #
+  # ########
+  "YTT",
+  # "ANN",
+  "ASYNC",
+  "S",
+  "BLE",
   "FBT",
+  "B",
+  "A",
+  "COM",
+  "C4",
+  # "CPY",
+  "DTZ",
+  "T10",
+  "DJ",
+  "EM",
+  "EXE",
   "FIX",
-  "FLY",
-  # "FURB", # Preview 0.7.4
-  # "G",
-  "I",
-  "ICN",
-  "INP",
+  "FA",
   "INT",
   "ISC",
+  "ICN",
   "LOG",
-  # "PD",
-  "PERF",
-  "PGH",
+  # "G",
+  "INP",
   "PIE",
-  "PL",
-  "PT",
-  "PTH",
   "PYI",
-  # "Q", Formatted
-  "N",
-  # NPY,
-  "RET",
-  "RSE",
-  "RUF",
-  "S",
-  "SIM",
-  "SLF",
-  "SLOT",
-  "T10",
   "T20",
-  "TC",
-  "TCH",
-  # "TD",
+  "PT",
+  # "Q", Formatted
+  "RSE",
+  "RET",
+  "SLF",
+  "SIM",
+  "SLOT",
   "TID",
-  "TRY",
-  "UP",
+  # "TD",
+  "TC",
+  "ARG",
+  "PTH",
+  # ############
+  # end flake8 #
+  # ############
+  "FLY",
+  "I",
+  "C90",
+  # "NPY",
+  # "PD",
+  "N",
+  "PERF",
+  "E",
   "W",
-  "YTT",
+  # "DOC",
+  "D",
+  "F",
+  "PGH",
+  "PLE",
+  "PLR",
+  "PLW",
+  "UP",
+  "FURB",
+  "RUF",
+  "TRY",
 ]
 external = ["V101"]
 task-tags = ["TODO", "FIXME", "XXX", "http", "HACK"]
@@ -228,6 +240,21 @@ task-tags = ["TODO", "FIXME", "XXX", "http", "HACK"]
 
 [tool.ruff.lint.pycodestyle]
 ignore-overlong-task-comments = true
+
+[tool.ty.environment]
+python = "./.venv"
+python-version = "3.10"
+
+[tool.ty.src]
+exclude = [
+  "**/.*",
+  "**/__pycache__",
+  "**/node_modules",
+  "dist",
+  "test-results",
+  "typings",
+  "vulture_ignorelist.py",
+]
 
 [tool.vulture]
 exclude = [
