@@ -1,5 +1,9 @@
 # 📰 Bochord News
 
+## v1.2.3
+
+- Warn about how to give permissions on disallowed iCloud book source dir.
+
 ## v1.2.2
 
 - Handle exceptions on unready iCloud book source dir.

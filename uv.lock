@@ -16,8 +16,8 @@ wheels = [
 
 [[package]]
 name = "bochord"
-version = "1.2.2"
-source = { virtual = "." }
+version = "1.2.3"
+source = { editable = "." }
 dependencies = [
     { name = "termcolor" },
     { name = "typing-extensions" },

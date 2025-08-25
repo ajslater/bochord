@@ -3,14 +3,10 @@
 import shutil
 from argparse import Namespace
 from pathlib import Path
-from time import sleep
 
 from termcolor import cprint
 
 from bochord.epub_dir import backup_epub_dir, get_dest_file_mtime
-
-RETRIES = 3
-RETRY_SLEEP = 3
 
 
 def backup_file(filename: Path, args: Namespace) -> bool:
@@ -40,20 +36,17 @@ def prune(args: Namespace) -> None:
 
 def read_source_dir(source: Path):
     """List source dir that may not be ready yet."""
-    try_num = 0
-    for try_num in range(RETRIES):
-        try:
-            filenames = sorted(source.iterdir())
-        except InterruptedError as exc:
-            cprint(f"Retrying {try_num}: {exc}")
-            sleep(RETRY_SLEEP)
-            continue
-        except:
-            raise
-        break
-    else:
-        reason = f"Tried {try_num} times and failed to list files in {source}"
-        raise ValueError(reason)
+    try:
+        filenames = sorted(source.iterdir())
+    except InterruptedError as exc:
+        cprint(exc)
+        cprint(
+            f"You probably need to allow this python script permission to access {source}. There's likely a pop up dialog requesting this.",
+            "yellow",
+        )
+        raise
+    except:
+        raise
     return filenames
 
 
