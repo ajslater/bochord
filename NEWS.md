@@ -1,5 +1,9 @@
 # 📰 Bochord News
 
+## v1.2.4
+
+- Update dependencies for security updates.
+
 ## v1.2.3
 
 - Warn about how to give permissions on disallowed iCloud book source dir.

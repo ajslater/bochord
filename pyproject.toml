@@ -14,7 +14,7 @@ license = "GPL-3.0-only"
 name = "bochord"
 readme = "README.md"
 requires-python = "<4.0,>=3.10"
-version = "1.2.3"
+version = "1.2.4"
 
 [project.urls]
 News = "https://github.com/ajslater/bochord/blob/main/NEWS.md"
