@@ -34,7 +34,7 @@ def prune(args: Namespace) -> None:
         cprint("\tRemoved: {filename}", "yellow")
 
 
-def read_source_dir(source: Path):
+def read_source_dir(source: Path) -> list[Path]:
     """List source dir that may not be ready yet."""
     try:
         filenames = sorted(source.iterdir())

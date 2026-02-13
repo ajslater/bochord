@@ -11,12 +11,12 @@ ICLOUD_BOOK_DIR = "Library/Mobile Documents/iCloud~com~apple~iBooks/Documents"
 PROGRAM_NAME = "bochord"
 
 try:
-    __version__ = version(PROGRAM_NAME)
+    __version__: str = version(PROGRAM_NAME)
 except PackageNotFoundError:
-    __version__ = "test"
+    __version__: str = "test"
 
 
-def get_arguments():
+def get_arguments() -> argparse.Namespace:
     """Get arguments with argparser."""
     usage = "%(prog)s [options] <backup_path>"
     desc = "Backup books from macOS Books to usable ePubs"
@@ -69,7 +69,7 @@ def get_arguments():
     return parser.parse_args()
 
 
-def main():
+def main() -> None:
     """Get cli arguments and run bochord."""
     args = get_arguments()
     run(args)
