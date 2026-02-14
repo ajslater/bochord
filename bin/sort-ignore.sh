@@ -3,5 +3,6 @@
 for f in .*ignore; do
   if [ ! -L "$f" ]; then
     sort --mmap --unique --output="$f" "$f"
+    echo "$f" sorted
   fi
 done
