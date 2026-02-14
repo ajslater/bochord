@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Fix common linting errors
 set -euxo pipefail
 
