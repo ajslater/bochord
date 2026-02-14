@@ -4,6 +4,6 @@
 class TestDummy:
     """Dummy Test."""
 
-    def test_dummy(self):
+    def test_dummy(self) -> None:
         """Dummy Test."""
         assert True
