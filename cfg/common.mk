@@ -17,6 +17,12 @@ update-npm:
 ## @category Update
 update:: update-npm
 
+.PHONY: update-devenv
+## Update development environment
+## @category Update
+update-devenv:
+	bin/update-devenv.sh
+
 .PHONY: kill-eslint_d
 ## Kill eslint daemon
 ## @category Lint
