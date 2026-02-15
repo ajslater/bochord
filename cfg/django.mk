@@ -16,8 +16,4 @@ lint::
 dev-server:
 	./bin/dev-server.sh
 
-.PHONY: docs-server
-## Run the docs server
-## @category Docs
-docs-server:
-	uv run --only-group docs --no-dev mkdocs serve --open --dirty
+

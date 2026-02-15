@@ -31,11 +31,13 @@ clean::
 	find . -name "__pycache__" -print0 | xargs -0 rm -rf
 	rm -rf .coverage
 
+ifndef OVERRIDE_BUILD
 .PHONY: build
 ## Build package
 ## @category Build
 build:
 	uv build
+endif
 
 .PHONY: publish
 ## Publish package to pypi

@@ -26,5 +26,5 @@ shellharden --replace ./**/*.sh
 ###### Dockerfile #####
 #######################
 if [ "$(find . -type f -name '*Dockerfile' -print -quit)" != "" ]; then
-  dockerfmt ./*Dockerfile --write
+  dockerfmt ./**/*Dockerfile --write
 fi
