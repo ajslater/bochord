@@ -156,7 +156,7 @@ dev = [
     { name = "icecream", specifier = "~=2.1" },
     { name = "infer-types", specifier = "~=1.0.0" },
     { name = "neovim", specifier = "~=0.3" },
-    { name = "semver", specifier = "~=3.0" },
+    { name = "semver", specifier = "~=3.0.4" },
     { name = "toml-cli", specifier = "~=0.7" },
     { name = "tomlkit", specifier = "~=0.14" },
 ]
