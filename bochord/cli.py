@@ -11,7 +11,7 @@ ICLOUD_BOOK_DIR = "Library/Mobile Documents/iCloud~com~apple~iBooks/Documents"
 PROGRAM_NAME = "bochord"
 
 try:
-    __version__: str = version(PROGRAM_NAME)
+    __version__: str = version(PROGRAM_NAME)  # pyright: ignore[reportRedeclaration]
 except PackageNotFoundError:
     __version__: str = "test"
 
