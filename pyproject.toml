@@ -9,9 +9,9 @@ dependencies = ["termcolor~=3.0", "typing-extensions~=4.13"]
 description = "Backup iCloud Books to usable ePubs"
 keywords = ["backup", "book", "epub", "iCloud"]
 readme = "README.md"
+requires-python = ">=3.10"
 license = "GPL-3.0-only"
 name = "bochord"
-requires-python = "<4.0,>=3.10"
 version = "1.2.4"
 [[project.authors]]
 name = "AJ Slater"
