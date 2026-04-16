@@ -3,11 +3,13 @@ services:
     build:
       context: .
       target: bochord-ci
-    image: bochord-ci:ci
     container_name: bochord-ci
+    entrypoint:
+      - sleep
+      - infinity
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: bochord-ci:ci
     volumes:
       - ./test-results:/app/test-results
       - ./dist:/app/dist
-    environment:
-      - PYTHONUNBUFFERED=1
-    entrypoint: [sleep, infinity]
