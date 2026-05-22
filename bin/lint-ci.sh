@@ -3,12 +3,9 @@
 set -euxo pipefail
 
 if [ "$(uname)" != "Darwin" ]; then
-  exit 0
+	exit 0
 fi
 
 if [ -f .github/workflows/ci.yml ]; then
-  actionlint .github/workflows/ci.yml
-fi
-if [ -f .circleci/config.yml ]; then
-  circleci config validate .circleci/config.yml
+	actionlint .github/workflows/ci.yml
 fi

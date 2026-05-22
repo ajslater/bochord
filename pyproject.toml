@@ -31,6 +31,7 @@ dev = [
   "icecream~=2.1",
   "infer-types~=1.0.0",
   "neovim~=0.3",
+  "pypi-cleanup~=0.1.10",
   "semver~=3.0.4",
   "toml-cli~=0.7",
   "tomlkit~=0.14",
@@ -43,7 +44,7 @@ lint = [
   "djlint~=1.3.dev0",
   "icecream~=2.1",
   "mbake~=1.4.5",
-  "pathspec~=1.0.4",
+  "pathspec~=1.1.1",
   "radon[toml]~=6.0",
   "ruff~=0.15",
   "types-python-dateutil~=2.9",
@@ -93,6 +94,7 @@ source-include = [
   "frontend/**",
   "img/**",
   "mkdocks.yml",
+  "mkdocs.yml",
   "mock_comics/**",
   "package-lock.json",
   "package.json",
@@ -110,7 +112,6 @@ exclude = [
   "**/node_modules",
   "dist",
   "frontend",
-  "site",
   "site",
   "test-results",
   "typings",
@@ -138,14 +139,19 @@ reportUnusedParameter = false
 [tool.codespell]
 builtin = "clear,code,rare"
 check-hidden = true
-ignore-words-list = "coverd,falsy,jupyter,ro,searchd,searched,thead,versio,ws"
-skip = "*~,.*,./bun.lock,./dist,./node_modules,./package-lock.json,./package.json,./test-results,./uv.lock,/uv.lock"
+ignore-words-list = "coverd,crate,falsy,iff,jupyter,ro,searchd,searched,thead,versio,wan,warmup,ws"
+skip = "*.svg,*~,.*,.*/*,./bun.lock,./dist,./node_modules,./package-lock.json,./package.json,./test-results,./uv.lock,/uv.lock,__pycache__,bun.lock,dist,htmlcov,node_modules,package.json,test-results,typings,uv.lock"
 
 [tool.complexipy]
 failed = true
 paths = ["bochord", "tests"]
 exclude = [
+  "**/__pycache__",
   "*/.*",
+  ".cache",
+  ".git",
+  ".github",
+  ".venv",
   "frontend",
   "node_modules",
   "site",
@@ -192,7 +198,7 @@ pythonpath = ["."]
 asyncio_mode = "strict"
 
 [tool.radon]
-exclude = "*~,.*,.*/*,__pycache__/*,config/*,dist/*,frontend/*,node_modules/*,site/*,test-results/*,typings/*"
+exclude = "*~,.*,.*/*,__pycache__/*,config/*,dist/*,frontend/*,node_modules/*,site/*,test-results/*,typings/*,vulture_ignorelist.py"
 
 [tool.ruff]
 builtins = ["ic"]
@@ -316,13 +322,11 @@ exclude = [
   "vulture_ignorelist.py",
 ]
 
-[tool.typos.default.extend-words]
-bookmarkd = "bookmarkd"
-coverd = "coverd"
-versio = "versio"
-
 [tool.vulture]
 exclude = [
+  "**/.*",
+  "**/__pycache__",
+  "**/node_modules",
   "*/.*",
   "*/__pycache__*",
   "*/node_modules*",
@@ -335,3 +339,8 @@ exclude = [
 ]
 min_confidence = 61
 sort_by_size = true
+
+[tool.typos.default.extend-words]
+bookmarkd = "bookmarkd"
+coverd = "coverd"
+versio = "versio"
