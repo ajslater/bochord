@@ -1,6 +1,7 @@
 {
-  "version": "0.1.0",
-  "description": "linting",
+  "name": "",
+  "version": "0.0.1",
+  "description": "linting for ",
   "type": "module",
   "scripts": {
     "fix": "eslint_d --cache --fix . && prettier --write .",
