@@ -1,0 +1,55 @@
+# Managed by devenv (copy/gha_std). Edit it there, not in a child repo.
+#
+# The standard pipeline: lint, test and build (devenv-check), then PyPI, then
+# the release. A project that needs its own jobs drops DEVENV_GHA_STD and
+# owns its ci.yml, composing the same devenv-* building blocks; see the
+# devenv README for the rules.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The required check is "CI / Lint, Test & Build Dist".
+  ci:
+    name: CI
+    uses: ./.github/workflows/devenv-check.yml
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+      checks: write
+
+  pypi:
+    name: Publish to PyPI
+    needs: ci
+    if: ${{ !cancelled() && needs.ci.result == 'success' && needs.ci.outputs.deploy == 'true' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: .github/actions
+
+      - name: Publish to PyPI
+        uses: ./.github/actions/devenv-pypi
+        with:
+          token: ${{ secrets.PYPI_TOKEN }}
+
+  release:
+    name: Release
+    needs: [ci, pypi]
+    if: ${{ !cancelled() && needs.ci.outputs.release == 'true' && needs.pypi.result == 'success' }}
+    uses: ./.github/workflows/devenv-release.yml
+    permissions:
+      contents: write

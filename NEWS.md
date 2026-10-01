@@ -1,5 +1,11 @@
 # 📰 Bochord News
 
+## v1.3.0
+
+- Requires Python 3.11 or later.
+- Add type hints and a `py.typed` marker.
+- Update dependencies.
+
 ## v1.2.4
 
 - Update dependencies for security updates.

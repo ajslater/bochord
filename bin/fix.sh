@@ -1,25 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Fix common linting errors
 set -euxo pipefail
+
+#####################
+###### Makefile #####
+#####################
+uv run mbake format Makefile cfg/*.mk
 
 ################
 # Ignore files #
 ################
-bin/sortignore.sh
-
-####################
-###### Python ######
-###################
-uv run --group lint ruff check --fix .
-uv run --group lint ruff format .
-# uv run --group lint djlint templates --profile=django --reformat
+bin/sort-ignore.sh
 
 ############################################
 ##### Javascript, JSON, Markdown, YAML #####
 ############################################
-npm run fix
+bun run fix
 
 ###################
 ###### Shell ######
 ###################
-shellharden --replace ./**/*.sh
+bin/fix-sh.sh

@@ -1,19 +1,28 @@
 # hadolint ignore=DL3007
-FROM nikolaik/python-nodejs:latest
+FROM oven/bun:latest AS bun-source
+FROM nikolaik/python-nodejs:python3.14-nodejs24
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get upgrade -y \
-  && apt-get install -y --no-install-recommends \
-    python3-pip \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends \
+        shellcheck \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
-COPY --chown=circleci:circleci bin bin
+COPY --from=bun-source /usr/local/bin/bun /usr/local/bin/bun
+COPY --from=bun-source /usr/local/bin/bunx /usr/local/bin/bunx
 
-# hadolint ignore=DL3059,DL3013
-RUN pip3 install --no-cache-dir -U bochord
-CMD ["bochord", "-h"]
+WORKDIR /app
+
+COPY bun.lock package.json ./
+RUN bun install
+
+
+COPY . .
+RUN mkdir -p test-results dist
+
+# Install
+# hadolint ignore=DL3059
+RUN uv sync --all-groups --all-extras
