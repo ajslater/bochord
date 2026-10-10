@@ -85,7 +85,6 @@ source-include = [
   "img/**",
   "mkdocs.yml",
   "mock_comics/**",
-  "package-lock.json",
   "package.json",
   "tests/**",
   "uv.lock",
@@ -125,7 +124,7 @@ reportUnusedParameter = false
 [tool.codespell]
 builtin = "clear,code,rare"
 ignore-words-list = "coverd,crate,deque,falsy,iff,jupyter,ro,searchd,searched,thead,versio,wan,warmup,ws"
-skip = "*.pdf,*.svg,*~,./package-lock.json,__pycache__,bun.lock,dist,htmlcov,node_modules,package.json,tasks,test-results,typings,uv.lock"
+skip = "*.pdf,*.svg,*~,__pycache__,bun.lock,dist,htmlcov,node_modules,package.json,tasks,test-results,typings,uv.lock"
 
 [tool.complexipy]
 failed = true
