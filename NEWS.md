@@ -1,5 +1,9 @@
 # 📰 Bochord News
 
+## v1.3.1
+
+- Security release.
+
 ## v1.3.0
 
 - Requires Python 3.11 or later.
