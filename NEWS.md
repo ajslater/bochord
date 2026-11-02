@@ -1,5 +1,11 @@
 # 📰 Bochord News
 
+## v1.3.2
+
+### 🔥 Removed
+
+- Removed dependency on typing-extensions
+
 ## v1.3.1
 
 ### 🔒 Security
