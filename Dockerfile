@@ -19,7 +19,6 @@ WORKDIR /app
 COPY bun.lock package.json ./
 RUN bun install
 
-
 COPY . .
 RUN mkdir -p test-results dist
 
