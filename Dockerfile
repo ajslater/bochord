@@ -1,9 +1,4 @@
-# hadolint ignore=DL3007
-FROM oven/bun:latest AS bun-source
 FROM nikolaik/python-nodejs:python3.15-nodejs26
-
-COPY --from=bun-source /usr/local/bin/bun /usr/local/bin/bun
-COPY --from=bun-source /usr/local/bin/bunx /usr/local/bin/bunx
 
 # Lint tools devenv's bin/ scripts run, unpinned on purpose.
 COPY --from=koalaman/shellcheck:stable /bin/shellcheck /usr/local/bin/
@@ -15,9 +10,6 @@ ADD https://github.com/anordal/shellharden/releases/latest/download/shellharden-
 RUN tar -xzf /tmp/shellharden.tar.gz -C /usr/local/bin shellharden && rm /tmp/shellharden.tar.gz
 
 WORKDIR /app
-
-COPY bun.lock package.json ./
-RUN bun install
 
 COPY . .
 RUN mkdir -p test-results dist
